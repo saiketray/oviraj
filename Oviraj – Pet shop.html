@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oviraj – Pet shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e8f4fd;--ink:#2a2140;--mute:#5d5878;--line:#c9dcec;--surf:#fff;--acc:#ff9f1c;--accink:#2a2140;--mint:#1fa89a;--fox:#f26a21;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17132a;--ink:#f1ecff;--mute:#aaa3c8;--line:#322b50;--surf:#211b3a;--mint:#4fd6c6}}
+:root[data-theme="dark"]{--bg:#17132a;--ink:#f1ecff;--mute:#aaa3c8;--line:#322b50;--surf:#211b3a;--mint:#4fd6c6}
+*{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Baloo 2",system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0}
+.brand{font-weight:800;font-size:1.7rem;letter-spacing:-.01em}
+.cartbtn{background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:8px 18px;cursor:pointer;font-weight:700}
+.cartbtn.bump{animation:bump .35s}
+@keyframes bump{50%{transform:scale(1.18)}}
+.hero{padding:30px 0 0}
+h1{font-size:clamp(2.2rem,6vw,3.8rem);line-height:1.02;font-weight:800;margin:0 0 10px;max-width:11em}
+.hero p{margin:0 0 18px;color:var(--mute);max-width:30em}
+.cta{display:inline-block;background:var(--acc);color:var(--accink);border:0;border-radius:12px;padding:12px 22px;font-weight:800;cursor:pointer;text-decoration:none}
+.track{position:relative;height:96px;overflow:hidden;margin-top:10px;border-bottom:4px dashed var(--line)}
+.fox{position:absolute;bottom:2px;left:0;width:120px;animation:run 14s linear infinite}
+@keyframes run{0%{transform:translateX(-140px)}100%{transform:translateX(calc(100vw))}}
+.fox .leg{transform-box:fill-box;transform-origin:50% 0;animation:step .5s ease-in-out infinite alternate}
+.fox .l2,.fox .l4{animation-delay:-.25s}
+.fox .tail{transform-box:fill-box;transform-origin:0% 100%;animation:wag .6s ease-in-out infinite alternate}
+.fox .body{animation:bob .25s ease-in-out infinite alternate}
+@keyframes step{from{transform:rotate(28deg)}to{transform:rotate(-28deg)}}
+@keyframes wag{from{transform:rotate(-14deg)}to{transform:rotate(16deg)}}
+@keyframes bob{to{transform:translateY(-2px)}}
+.bar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin:22px 0 14px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:2px solid var(--line);background:var(--surf);padding:4px 14px;border-radius:999px;cursor:pointer;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#q{padding:8px 14px;border:2px solid var(--line);border-radius:999px;background:var(--surf);min-width:200px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:var(--surf);border:2px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.pic{font-size:4rem;line-height:1;text-align:center;padding:14px 0;background:var(--bg);border-radius:14px;margin-bottom:6px;cursor:default}
+.card:hover .pic span{display:inline-block;animation:hop .6s}
+@keyframes hop{30%{transform:translateY(-14px) rotate(-8deg)}60%{transform:translateY(0) rotate(6deg)}}
+.card h3{margin:0;font-size:1.1rem}
+.card p{margin:0;color:var(--mute);font-size:.9rem;line-height:1.3;flex:1}
+.pr{font-size:1.4rem;font-weight:800;color:var(--mint)}
+.add{background:var(--acc);color:var(--accink);border:0;border-radius:10px;padding:8px;font-weight:800;cursor:pointer}
+.none{color:var(--mute);padding:30px 0;grid-column:1/-1}
+footer{color:var(--mute);font-size:.9rem;padding:36px 0 48px}
+#drawer{position:fixed;inset:0 0 0 auto;width:min(410px,100%);background:var(--surf);border-left:2px solid var(--line);transform:translateX(100%);transition:transform .25s;z-index:20;display:flex;flex-direction:column;overflow:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
+#drawer.open{transform:none}
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:10;display:none}
+#scrim.open{display:block}
+.dh{display:flex;justify-content:space-between;align-items:center}
+.dh h2{margin:0}
+.x{background:none;border:0;font-size:1.8rem;cursor:pointer}
+.it{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.it button{background:none;border:0;color:var(--mute);text-decoration:underline;cursor:pointer;padding:0}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:1.25rem;margin:12px 0}
+label{display:block;font-size:.85rem;color:var(--mute);margin-top:8px}
+#drawer input,#drawer select{width:100%;padding:9px;border:2px solid var(--line);border-radius:10px;background:var(--bg)}
+.pay{width:100%;margin-top:14px;background:var(--mint);color:#08322d;border:0;border-radius:12px;padding:12px;font-weight:800;cursor:pointer}
+.pay:disabled{opacity:.45;cursor:not-allowed}
+.ok{margin-top:12px;color:var(--mint);font-weight:700}
+.empty{color:var(--mute)}
+@media (prefers-reduced-motion:reduce){.fox,.fox *,.card:hover .pic span,.cartbtn.bump{animation:none}.fox{left:20px}#drawer{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="brand">Oviraj</div><button class="cartbtn" id="open" aria-controls="drawer">Cart (<span id="count">0</span>)</button></header>
+
+<section class="hero">
+<h1>Everything your pet is wagging for.</h1>
+<p>Toys, beds, feeders and tank gear for dogs, cats, birds and fish, delivered to your door.</p>
+<a class="cta" href="#shop">Shop now</a>
+<div class="track" aria-hidden="true">
+<svg class="fox" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+<g class="body">
+<path class="tail" d="M20 44 C4 40 0 24 8 14 C12 28 24 30 30 38Z" fill="#f26a21"/>
+<path d="M12 18 C8 22 8 26 9 29 C12 26 14 22 12 18Z" fill="#fff"/>
+<ellipse cx="50" cy="44" rx="28" ry="15" fill="#f26a21"/>
+<ellipse cx="50" cy="52" rx="20" ry="7" fill="#fff"/>
+<circle cx="86" cy="32" r="14" fill="#f26a21"/>
+<path d="M76 22 L78 6 L88 18Z M92 18 L100 6 L100 24Z" fill="#f26a21"/>
+<path d="M92 36 L112 42 L94 46Z" fill="#fff"/>
+<circle cx="112" cy="42" r="3" fill="#2a2140"/>
+<circle cx="88" cy="29" r="2.4" fill="#2a2140"/>
+</g>
+<rect class="leg l1" x="32" y="52" width="6" height="22" rx="3" fill="#b8430f"/>
+<rect class="leg l2" x="42" y="52" width="6" height="22" rx="3" fill="#f26a21"/>
+<rect class="leg l3" x="60" y="52" width="6" height="22" rx="3" fill="#b8430f"/>
+<rect class="leg l4" x="70" y="52" width="6" height="22" rx="3" fill="#f26a21"/>
+</svg>
+</div>
+</section>
+
+<div class="bar" id="shop">
+<div class="seg" id="cats" role="group" aria-label="Animal"></div>
+<input id="q" type="search" placeholder="Search products" aria-label="Search products">
+</div>
+<main class="grid" id="list"></main>
+<footer>Oviraj is a demo store. Replace the sample products, prices and contact details with your own before going live.</footer>
+</div>
+
+<div id="scrim"></div>
+<aside id="drawer" aria-label="Cart" aria-hidden="true">
+<div class="dh"><h2>Your cart</h2><button class="x" id="close" aria-label="Close cart">&times;</button></div>
+<div id="items"></div>
+<div class="tot"><span>Total</span><span id="total">৳0</span></div>
+<label for="nm">Full name</label><input id="nm" autocomplete="name">
+<label for="ph">Phone number</label><input id="ph" type="tel" autocomplete="tel">
+<label for="ad">Delivery address</label><input id="ad" autocomplete="street-address">
+<label for="pm">Payment</label>
+<select id="pm"><option>Cash on delivery</option><option>bKash</option><option>Nagad</option></select>
+<button class="pay" id="pay" disabled>Place order</button>
+<div class="ok" id="ok" role="status"></div>
+</aside>
+
+<script>
+var P=[
+{id:1,c:"Dogs",e:"🐕",n:"Chew bone toy",d:"Tough rubber bone for strong chewers.",p:350},
+{id:2,c:"Dogs",e:"🦮",n:"Leash and collar set",d:"Padded collar with a 1.5 m leash.",p:900},
+{id:3,c:"Dogs",e:"🛏️",n:"Cozy dog bed",d:"Washable cover, medium size.",p:2200},
+{id:4,c:"Cats",e:"🐈",n:"Scratching post",d:"Sisal rope post with a base that stays put.",p:1500},
+{id:5,c:"Cats",e:"🐟",n:"Feather wand toy",d:"Interactive toy for indoor play.",p:280},
+{id:6,c:"Cats",e:"🧶",n:"Catnip ball set",d:"Five refillable balls.",p:320},
+{id:7,c:"Birds",e:"🦜",n:"Hanging bird feeder",d:"Weatherproof feeder for garden birds.",p:650},
+{id:8,c:"Birds",e:"🕊️",n:"Bird cage perch set",d:"Natural wood perches, set of three.",p:480},
+{id:9,c:"Fish",e:"🐠",n:"Tank filter",d:"Quiet filter for tanks up to 60 L.",p:1800},
+{id:10,c:"Fish",e:"🫧",n:"Air pump and stone",d:"Keeps water oxygenated.",p:750},
+{id:11,c:"Dogs",e:"🎾",n:"Tennis ball pack",d:"Set of four bouncy fetch balls.",p:300},
+{id:12,c:"Dogs",e:"🥣",n:"Steel food bowl",d:"Non-slip base, easy to wash.",p:420},
+{id:13,c:"Dogs",e:"🧥",n:"Winter dog coat",d:"Warm fleece lining, sizes S to XL.",p:1400},
+{id:14,c:"Dogs",e:"🧸",n:"Squeaky plush toy",d:"Soft toy with a built-in squeaker.",p:380},
+{id:15,c:"Dogs",e:"🦴",n:"Dental chew sticks",d:"Helps clean teeth, pack of 20.",p:550},
+{id:16,c:"Dogs",e:"🚿",n:"Pet shampoo",d:"Gentle oatmeal formula, 500 ml.",p:480},
+{id:17,c:"Dogs",e:"🏠",n:"Travel crate",d:"Foldable crate for car trips.",p:3200},
+{id:18,c:"Dogs",e:"🍖",n:"Chicken training treats",d:"Small soft treats for training.",p:350},
+{id:19,c:"Dogs",e:"🪢",n:"Rope tug toy",d:"Braided cotton rope for tug games.",p:260},
+{id:20,c:"Dogs",e:"🧴",n:"Flea and tick spray",d:"Safe for dogs over 12 weeks.",p:650},
+{id:21,c:"Cats",e:"🏰",n:"Cat tree tower",d:"Three levels with hideaway and perch.",p:4500},
+{id:22,c:"Cats",e:"🪣",n:"Litter box with scoop",d:"Covered box that keeps odor in.",p:1100},
+{id:23,c:"Cats",e:"🍗",n:"Tuna cat food",d:"Wet food pouches, pack of 12.",p:900},
+{id:24,c:"Cats",e:"🛋️",n:"Cozy cat bed",d:"Round plush bed with raised edge.",p:1300},
+{id:25,c:"Cats",e:"🎣",n:"Fishing rod toy",d:"Dangling fish teaser for play.",p:240},
+{id:26,c:"Cats",e:"🔔",n:"Collar with bell",d:"Breakaway collar, adjustable.",p:220},
+{id:27,c:"Cats",e:"🐾",n:"Scratch pad lounger",d:"Corrugated cardboard scratcher.",p:580},
+{id:28,c:"Cats",e:"💧",n:"Water fountain",d:"Flowing fountain, 2 L tank.",p:2100},
+{id:29,c:"Cats",e:"🧼",n:"Grooming brush",d:"Self-cleaning slicker brush.",p:450},
+{id:30,c:"Cats",e:"🎒",n:"Carrier bag",d:"Ventilated bag for vet visits.",p:1900},
+{id:31,c:"Birds",e:"🌾",n:"Mixed seed blend",d:"Millet and sunflower mix, 1 kg.",p:380},
+{id:32,c:"Birds",e:"🏡",n:"Large flight cage",d:"Spacious cage with two feeders.",p:5200},
+{id:33,c:"Birds",e:"💧",n:"Automatic water dispenser",d:"Clip-on dispenser for cages.",p:290},
+{id:34,c:"Birds",e:"🪺",n:"Nesting box",d:"Wooden box for small birds.",p:750},
+{id:35,c:"Birds",e:"🪶",n:"Foraging toy",d:"Hide treats to keep birds busy.",p:340},
+{id:36,c:"Birds",e:"🥜",n:"Mineral cuttlebone",d:"Calcium source, pack of 4.",p:180},
+{id:37,c:"Birds",e:"🐤",n:"Swing and ladder set",d:"Wooden toys for parrots.",p:420},
+{id:38,c:"Birds",e:"🦜",n:"Travel cage",d:"Small carrier with a handle.",p:1400},
+{id:39,c:"Birds",e:"🧽",n:"Cage cleaning kit",d:"Brush and spray for cage care.",p:360},
+{id:40,c:"Birds",e:"🍎",n:"Dried fruit mix",d:"Natural treat for parrots, 250 g.",p:520},
+{id:41,c:"Fish",e:"🐡",n:"Aquarium starter kit",d:"30 L tank with light and filter.",p:4800},
+{id:42,c:"Fish",e:"🍤",n:"Fish flake food",d:"Balanced daily flakes, 100 g.",p:220},
+{id:43,c:"Fish",e:"🌿",n:"Plastic plant set",d:"Five safe decoration plants.",p:340},
+{id:44,c:"Fish",e:"💡",n:"LED tank light",d:"Slim light for tanks up to 60 cm.",p:1500},
+{id:45,c:"Fish",e:"🌡️",n:"Tank heater",d:"Adjustable 100 W heater.",p:950},
+{id:46,c:"Fish",e:"🧪",n:"Water test kit",d:"Checks pH, ammonia and nitrite.",p:680},
+{id:47,c:"Fish",e:"🏝️",n:"Castle ornament",d:"Hideout decoration for fish.",p:390},
+{id:48,c:"Fish",e:"🪸",n:"Gravel and sand mix",d:"Washed substrate, 2 kg.",p:420},
+{id:49,c:"Fish",e:"🧽",n:"Algae scrubber",d:"Magnetic glass cleaner.",p:520},
+{id:50,c:"Fish",e:"🥤",n:"Water conditioner",d:"Removes chlorine, 250 ml.",p:310}
+];
+var cat="All",q="",cart=[];
+try{cart=JSON.parse(localStorage.getItem("ov-cart")||"[]")}catch(e){cart=[]}
+var $=function(i){return document.getElementById(i)};
+function save(){try{localStorage.setItem("ov-cart",JSON.stringify(cart))}catch(e){}}
+function tk(n){return "৳"+n.toLocaleString("en-US")}
+function get(id){return P.filter(function(x){return x.id===id})[0]}
+function cats(){
+var c=["All"].concat(P.map(function(x){return x.c}).filter(function(v,i,a){return a.indexOf(v)===i}));
+$("cats").innerHTML=c.map(function(x){return '<button data-c="'+x+'" aria-pressed="'+(x===cat)+'">'+x+'</button>'}).join("");
+}
+function list(){
+var r=P.filter(function(x){return(cat==="All"||x.c===cat)&&(x.n+x.d).toLowerCase().indexOf(q)>-1});
+$("list").innerHTML=r.length?r.map(function(x){
+return '<div class="card"><div class="pic"><span>'+x.e+'</span></div><h3>'+x.n+'</h3><p>'+x.d+'</p><div class="pr">'+tk(x.p)+'</div><button class="add" data-a="'+x.id+'">Add to cart</button></div>';
+}).join(""):'<p class="none">No products match your search. Try another word or pick All.</p>';
+}
+function total(){return cart.reduce(function(s,i){return s+get(i).p},0)}
+function drawCart(){
+$("count").textContent=cart.length;
+$("items").innerHTML=cart.length?cart.map(function(id,i){var x=get(id);
+return '<div class="it"><span>'+x.e+' '+x.n+'<br><small>'+tk(x.p)+'</small></span><button data-r="'+i+'">Remove</button></div>'}).join(""):'<p class="empty">Your cart is empty. Add something your pet will love.</p>';
+$("total").textContent=tk(total());check();
+}
+function check(){$("pay").disabled=!cart.length||!$("nm").value.trim()||$("ph").value.replace(/\D/g,"").length<10||!$("ad").value.trim()}
+function openCart(o){$("drawer").classList.toggle("open",o);$("scrim").classList.toggle("open",o);$("drawer").setAttribute("aria-hidden",!o)}
+$("cats").onclick=function(e){var c=e.target.getAttribute("data-c");if(c){cat=c;cats();list()}};
+$("q").oninput=function(){q=this.value.toLowerCase().trim();list()};
+$("list").onclick=function(e){var a=e.target.getAttribute("data-a");if(a){cart.push(+a);save();drawCart();$("ok").textContent="";var b=$("open");b.classList.remove("bump");void b.offsetWidth;b.classList.add("bump")}};
+$("items").onclick=function(e){var r=e.target.getAttribute("data-r");if(r!==null){cart.splice(+r,1);save();drawCart()}};
+$("open").onclick=function(){openCart(true)};
+$("close").onclick=$("scrim").onclick=function(){openCart(false)};
+document.onkeydown=function(e){if(e.key==="Escape")openCart(false)};
+$("nm").oninput=$("ph").oninput=$("ad").oninput=check;
+$("pay").onclick=function(){
+/* Demo only: send the order to your server or a form service so you can confirm and ship it. */
+var t=total();cart=[];save();drawCart();
+$("ok").textContent="Order placed for "+tk(t)+". We will call you to confirm delivery.";
+};
+cats();list();drawCart();
+</script>
+</body>
+</html>
